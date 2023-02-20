@@ -1,0 +1,46 @@
+{
+    "Actions": [
+        {
+            "Name": "Knob",
+            "States": [
+                {
+                    "Image": "actionDefaultImage",
+                    "TitleAlignment": "middle",
+                    "FontSize": "16"
+                }
+            ],
+            "Controllers": [
+                "Encoder"
+            ],
+            "Encoder": {
+                "layout": "$A1",
+                "TriggerDescription": {
+                    "Rotate": "Scroll",
+                    "Push": "Increase the scoll speed",
+                    "Touch": "Toggle the scroll orientation",
+                    "LongTouch": "Reset the scroll speed"
+                }
+            },
+            "SupportedInMultiActions": false,
+            "Tooltip": "A knob.",
+            "UUID": "com.andrewrynhard.knob"
+        }
+    ],
+    "SDKVersion": 2,
+    "Author": "Andrew Rynhard",
+    "CodePath": "knob",
+    "Description": "A knob.",
+    "Name": "Knob",
+    "Icon": "pluginIcon",
+    "URL": "https://github.com/andrewrynhard-audio/streamdeck-knob",
+    "Version": "0.1.0-alpha.0",
+    "OS": [
+        {
+            "Platform": "mac",
+            "MinimumVersion": "12.4"
+        }
+    ],
+    "Software": {
+        "MinimumVersion": "6.0"
+    }
+}

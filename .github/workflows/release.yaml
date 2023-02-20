@@ -1,0 +1,31 @@
+name: Release
+on:
+  push:
+    tags:
+      - "*"
+jobs:
+  release:
+    runs-on: macos-12
+    steps:
+      - uses: actions/checkout@v2
+      - name: build
+        run: make build
+      - name: release
+        uses: actions/create-release@v1
+        id: create_release
+        with:
+          draft: true
+          prerelease: true
+          release_name: v0.1.0-alpha.0
+          tag_name: v0.1.0-alpha.0
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+      - name: upload artifact
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./build/com.andrewrynhard.knob.sdPlugin.streamDeckPlugin
+          asset_name: com.andrewrynhard.knob.sdPlugin.streamDeckPlugin
+          asset_content_type: application/zip
