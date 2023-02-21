@@ -19,24 +19,24 @@ import (
 )
 
 var (
-	vertical        bool = true
-	dialRotateSpeed int  = 1
+	vertical   bool = true
+	changeRate int  = 1
 )
 
 func WillAppear(plugin *sdk.Plugin, event interface{}) {
 	p := event.(*sdk.WillAppearEvent)
 
 	setOrientationFeedback(plugin, p.Context)
-	setRotateMultiplierFeedback(plugin, p.Context)
+	setChangeRateFeedback(plugin, p.Context)
 }
 
 func DialRotate(plugin *sdk.Plugin, event interface{}) {
 	p := event.(*sdk.DialRotateEvent)
 
 	if vertical {
-		C.scroll(C.int(0), C.int(dialRotateSpeed*p.Payload.Ticks))
+		C.scroll(C.int(0), C.int(changeRate*p.Payload.Ticks))
 	} else {
-		C.scroll(C.int(dialRotateSpeed*p.Payload.Ticks), C.int(0))
+		C.scroll(C.int(changeRate*p.Payload.Ticks), C.int(0))
 	}
 }
 
@@ -44,10 +44,10 @@ func DialPress(plugin *sdk.Plugin, event interface{}) {
 	p := event.(*sdk.DialPressEvent)
 
 	if p.Payload.Pressed {
-		if dialRotateSpeed == 32 {
-			setRotateMulitplier(plugin, p.Context, 1)
+		if changeRate == 32 {
+			setChangeRate(plugin, p.Context, 1)
 		} else {
-			setRotateMulitplier(plugin, p.Context, dialRotateSpeed*2)
+			setChangeRate(plugin, p.Context, changeRate*2)
 		}
 	}
 }
@@ -56,7 +56,7 @@ func TouchTap(plugin *sdk.Plugin, event interface{}) {
 	p := event.(*sdk.TouchTapEvent)
 
 	if p.Payload.Hold {
-		setRotateMulitplier(plugin, p.Context, 1)
+		setChangeRate(plugin, p.Context, 1)
 	} else {
 		setOrientation(plugin, p.Context)
 	}
@@ -85,16 +85,35 @@ func setOrientationFeedback(plugin *sdk.Plugin, c string) {
 	plugin.SetFeedback(c, payload)
 }
 
-func setRotateMulitplier(plugin *sdk.Plugin, c string, n int) error {
-	dialRotateSpeed = n
+func setChangeRate(plugin *sdk.Plugin, c string, n int) error {
+	changeRate = n
 
-	setRotateMultiplierFeedback(plugin, c)
+	setChangeRateFeedback(plugin, c)
 
 	return nil
 }
 
-func setRotateMultiplierFeedback(plugin *sdk.Plugin, c string) {
-	payload := map[string]string{"value": strconv.Itoa(dialRotateSpeed)}
+func setChangeRateFeedback(plugin *sdk.Plugin, c string) {
+	var n int
+
+	switch changeRate {
+	case 1:
+		n = 1
+	case 2:
+		n = 2
+	case 4:
+		n = 3
+	case 8:
+		n = 4
+	case 16:
+		n = 5
+	case 32:
+		n = 6
+	default:
+		n = 0
+	}
+
+	payload := map[string]string{"value": "Level " + strconv.Itoa(n)}
 
 	plugin.SetFeedback(c, payload)
 }
