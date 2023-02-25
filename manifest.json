@@ -15,10 +15,10 @@
             "Encoder": {
                 "layout": "$A1",
                 "TriggerDescription": {
-                    "Rotate": "Scroll",
-                    "Push": "Increase the scoll speed",
-                    "Touch": "Toggle the scroll orientation",
-                    "LongTouch": "Reset the scroll speed"
+                    "Rotate": "Change a parameter",
+                    "Push": "Increase the change rate",
+                    "Touch": "Toggle the orientation",
+                    "LongTouch": "Reset the change rate"
                 }
             },
             "SupportedInMultiActions": false,
